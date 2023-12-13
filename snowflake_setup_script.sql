@@ -61,6 +61,13 @@ GRANT ALL PRIVILEGES ON FUTURE SCHEMAS IN DATABASE IDENTIFIER ($database_name) T
 GRANT ALL PRIVILEGES ON ALL TABLES IN DATABASE IDENTIFIER ($database_name) TO ROLE IDENTIFIER ($role_name);
 GRANT ALL PRIVILEGES ON FUTURE TABLES IN DATABASE IDENTIFIER ($database_name) TO ROLE IDENTIFIER ($role_name);
 
+
+-- Setup a dummy table that sample data onboarding can reference 
+USE ROLE IDENTIFIER($role_name);
+USE DATABASE IDENTIFIER($database_name);
+create TABLE IF NOT EXISTS PUBLIC.PREQL_SAMPLE_DATA_CUSTOMERS (CUSTOMER_ID NUMBER(38,0) autoincrement);
+
+USE ROLE ACCOUNTADMIN;
 -- Grant Preql access to Snowflake tables for Usage and Consumption models within the Preql product
 GRANT IMPORTED PRIVILEGES ON DATABASE SNOWFLAKE TO ROLE IDENTIFIER ($role_name);
 USE DATABASE SNOWFLAKE;
@@ -102,9 +109,5 @@ CLOSE db_cursor;
 END;
 END IF;
 
--- Setup a dummy table that sample data onboarding can reference 
-USE ROLE IDENTIFIER($role_name);
-USE DATABASE IDENTIFIER($database_name);
-create TABLE IF NOT EXISTS PUBLIC.PREQL_SAMPLE_DATA_CUSTOMERS (CUSTOMER_ID NUMBER(38,0) autoincrement);
 
 END;
